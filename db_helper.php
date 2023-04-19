@@ -1,6 +1,7 @@
 <?php
 
-class DBHelper{
+class DBHelper
+{
 
 
   public $mysqli;
@@ -8,18 +9,29 @@ class DBHelper{
   function __construct()
   {
     require "config.php";
-    include "config.php";
 
     $this->mysqli = new mysqli($host, $user, $password, $db);
 
     // Check connection
-    if ($this->mysqli -> connect_errno) {
+    if ($this->mysqli->connect_errno) {
       echo "Failed to connect to MySQL: " . $this->mysqli->connect_error;
       exit();
     }
   }
 
-  function getUsers(){
+  function newUser($phone)
+  {
+    $sql = "INSERT INTO users (phone, fullName, gender, birth_day) VALUES ('$phone', 'undefined', 'undefined', 'undefined')";
+
+    if ($this->mysqli->query($sql) === TRUE) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  function getUsers()
+  {
     $res = [];
     $sql = "SELECT * FROM users";
 
@@ -33,7 +45,8 @@ class DBHelper{
     return $res;
   }
 
-  function closeConnection(){
+  function closeConnection()
+  {
     $this->mysqli->close();
   }
 }
