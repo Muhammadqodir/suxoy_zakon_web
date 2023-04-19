@@ -11,7 +11,10 @@ $current_route = getCurrentRoute();
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item <?php if($current_route == "dashboard/") echo 'active'?>">
-        <a class="nav-link" href="<?php echo getRoute("dashboard") ?>"><i class="fa-solid fa-pizza-slice"></i> Заказы <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="<?php echo getRoute("dashboard") ?>"><i class="fa-solid fa-receipt"></i> Заказы <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item <?php if($current_route == "menu/") echo 'active'?>">
+        <a class="nav-link" href="<?php echo getRoute("menu") ?>"><i class="fa-solid fa-pizza-slice"></i> Меню <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item <?php if($current_route == "clients/") echo 'active'?>">
         <a class="nav-link" href="<?php echo getRoute("clients") ?>"><i class="fa-solid fa-users"></i> Клиенты</a>
