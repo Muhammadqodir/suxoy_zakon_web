@@ -13,6 +13,8 @@ if(isset($_POST["phone"])){
 
   $res["status"] = 200;
   $res["message"] = "ok";
+  
+  $db->closeConnection();
 }else{
   $res["status"] = 500;
   $res["message"] = "phone field is required";

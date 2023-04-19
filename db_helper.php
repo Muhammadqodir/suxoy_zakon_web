@@ -19,6 +19,17 @@ class DBHelper
     }
   }
 
+  function getField($field){
+    $sql = "SELECT * FROM fields WHERE field='$field'";
+
+    if ($result = $this->mysqli->query($sql)) {
+      return $result->fetch_assoc()["value"];
+    }else{
+      return "undefined";
+    }
+
+  }
+
   function newUser($phone)
   {
     $sql = "INSERT INTO users (phone, fullName, gender, birth_day) VALUES ('$phone', 'undefined', 'undefined', 'undefined')";
