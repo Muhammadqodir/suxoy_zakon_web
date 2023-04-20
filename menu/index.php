@@ -26,12 +26,15 @@ if (!isset($_SESSION["is_login"])) {
 
   <div class="container dashboard_content">
     <div class="d-flex">
-      <div class="mr-auto p-2"><h3>Меню</h3></div>
+      <div class="mr-auto p-2">
+        <h3>Меню</h3>
+      </div>
       <div class="p-2"><a class="btn btn-success" href="<?php echo getRoute("menu/add") ?>" role="button"><i class="fa-solid fa-plus"></i> Добавить</a></div>
     </div>
 
     <!-- Positions -->
-    <?php require "../db_helper.php"; $db = new DBHelper(); ?>
+    <?php require "../db_helper.php";
+    $db = new DBHelper(); ?>
     <div class="row menu_items">
       <?php foreach ($db->getAllMenu() as $item) : ?>
         <div class="col-lg-4 col-md-6">
@@ -42,8 +45,12 @@ if (!isset($_SESSION["is_login"])) {
               <span class="badge badge-success"><?php echo $item["category"] ?></span><br>
               <p class="card-text menu_desc"><b>Состав:</b> <br><?php echo $item["description"] ?></p>
               <a href="#" class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i></a>
-              <a href="#" class="btn btn-warning"><i class="fa-solid fa-toggle-<?php if($item["available"]){echo "on";}else{echo "off";} ?>"></i></a>
-              <a href="#" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
+              <a href="#" class="btn btn-warning"><i class="fa-solid fa-toggle-<?php if ($item["available"]) {
+                                                                                  echo "on";
+                                                                                } else {
+                                                                                  echo "off";
+                                                                                } ?>"></i></a>
+              <button onclick="showConfirmDialog(<?php echo $item["id"] ?>)" class="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
             </div>
           </div>
         </div>
@@ -51,6 +58,38 @@ if (!isset($_SESSION["is_login"])) {
 
     </div>
   </div>
+
+  <div class="modal fade" id="removeConfirmation" tabindex="-1" role="dialog" aria-labelledby="removeConfirmationTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Подтвердите действие</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Вы действительно хотите удалить позицию?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+          <button type="button" onclick="remove()" class="btn btn-danger">Да удалить</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var selectedId = -1;
+    function showConfirmDialog(id){
+      selectedId = id;
+      $('#removeConfirmation').modal('toggle');
+    }
+
+    function remove(){
+      window.location.href = '<?php echo getRoute("menu/remove_position.php?id=") ?>'+selectedId;
+    }
+  </script>
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

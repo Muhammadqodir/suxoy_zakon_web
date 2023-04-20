@@ -55,6 +55,17 @@ class DBHelper
     }
   }
 
+  function removeMenuPosition($id){
+
+    $sql = "DELETE FROM menu WHERE id = $id";
+
+    if ($this->mysqli->query($sql) === TRUE) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   function getUsers()
   {
     $res = [];
