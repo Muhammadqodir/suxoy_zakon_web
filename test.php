@@ -1,10 +1,10 @@
 <?php
-require("db_helper.php");
+// phpinfo();
+// require("db_helper.php");
 
-$db = new DBHelper();
+// $db = new DBHelper();
 
-$users = $db->getUsers();
+// $users = $db->getAllMenu();
 
-print_r(count($users));
+// print_r($users);
 
-?>

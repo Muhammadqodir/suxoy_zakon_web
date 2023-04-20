@@ -12,6 +12,8 @@ class DBHelper
 
     $this->mysqli = new mysqli($host, $user, $password, $db);
 
+    $this->mysqli->set_charset("utf8");
+
     // Check connection
     if ($this->mysqli->connect_errno) {
       echo "Failed to connect to MySQL: " . $this->mysqli->connect_error;
@@ -41,6 +43,18 @@ class DBHelper
     }
   }
 
+  function newMenuPosition($title, $description, $price, $category, $pic)
+  {
+    $sql = "INSERT INTO `menu` (`title`, `description`, `available`, `pic`, `price`, `category`) 
+    VALUES ('$title', '$description', 1, '$pic', $price, '$category')";
+
+    if ($this->mysqli->query($sql) === TRUE) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   function getUsers()
   {
     $res = [];
@@ -49,6 +63,36 @@ class DBHelper
     if ($result = $this->mysqli->query($sql)) {
       while ($row = $result->fetch_row()) {
         $res[] = $row;
+      }
+      $result->free_result();
+    }
+
+    return $res;
+  }
+
+  function getAllMenu()
+  {
+    $res = [];
+    $sql = "SELECT * FROM menu";
+
+    if ($result = $this->mysqli->query($sql)) {
+      while ($row = $result->fetch_assoc()) {
+        $res[] = $row;
+      }
+      $result->free_result();
+    }
+
+    return $res;
+  }
+
+  function getCategories()
+  {
+    $res = [];
+    $sql = "SELECT DISTINCT(category) FROM menu;";
+
+    if ($result = $this->mysqli->query($sql)) {
+      while ($row = $result->fetch_assoc()) {
+        $res[] = $row["category"];
       }
       $result->free_result();
     }
