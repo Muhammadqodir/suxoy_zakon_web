@@ -11,12 +11,12 @@ if(isset($_POST["phone"])){
 
   $db->newUser($phone);
 
-  $res["status"] = 200;
+  $res["isSuccess"] = true;
   $res["message"] = "ok";
   
   $db->closeConnection();
 }else{
-  $res["status"] = 500;
+  $res["isSuccess"] = false;
   $res["message"] = "phone field is required";
 }
 

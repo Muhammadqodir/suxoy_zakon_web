@@ -21,20 +21,50 @@ class DBHelper
     }
   }
 
-  function getField($field){
+  function getField($field)
+  {
     $sql = "SELECT * FROM fields WHERE field='$field'";
-
     if ($result = $this->mysqli->query($sql)) {
       return $result->fetch_assoc()["value"];
-    }else{
+    } else {
       return "undefined";
     }
+  }
 
+  function register($phone)
+  {
+    $sql = "SELECT * FROM users WHERE phone = '$phone'";
+    if ($result = $this->mysqli->query($sql)) {
+      $row = $result->fetch_assoc();
+      if ($row != null && $row != false) {
+        return $row;
+      } else {
+        if ($this->newUser($phone)) {
+          return $this->register($phone);
+        } else {
+          return "undefined";
+        }
+      }
+    } else {
+      return "undefined";
+    }
+  }
+
+  function generateToken($length)
+  {
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+    for ($i = 0; $i < $length; $i++) {
+      $randomString .= $characters[random_int(0, $charactersLength - 1)];
+    }
+    return $randomString;
   }
 
   function newUser($phone)
   {
-    $sql = "INSERT INTO users (phone, fullName, gender, birth_day) VALUES ('$phone', 'undefined', 'undefined', 'undefined')";
+    $token = $this->generateToken(16);
+    $sql = "INSERT INTO users (phone, fullName, gender, birth_day, token) VALUES ('$phone', 'undefined', 'undefined', 'undefined', '$token')";
 
     if ($this->mysqli->query($sql) === TRUE) {
       return true;
@@ -55,7 +85,8 @@ class DBHelper
     }
   }
 
-  function removeMenuPosition($id){
+  function removeMenuPosition($id)
+  {
 
     $sql = "DELETE FROM menu WHERE id = $id";
 
