@@ -2,10 +2,14 @@
 require "../db_helper.php";
 require "validators.php";
 
-$token = "undefined";
-if(isset(getallheaders()["Token"])){
-  echo getallheaders()["Token"];
-}
+// $token = "undefined";
+// try{
+//   if(isset(getallheaders()["Token"])){
+//     echo getallheaders()["Token"];
+//   }
+// }catch{
+
+// }
 
 $res = [];
 if(validateRequest()){

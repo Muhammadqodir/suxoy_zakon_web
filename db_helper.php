@@ -126,6 +126,34 @@ class DBHelper
 
     return $res;
   }
+  function getMenuByCat($cat)
+  {
+    $res = [];
+    $sql = "SELECT * FROM menu WHERE category='$cat'";
+
+    if ($result = $this->mysqli->query($sql)) {
+      while ($row = $result->fetch_assoc()) {
+        $res[] = $row;
+      }
+      $result->free_result();
+    }
+
+    return $res;
+  }
+  function search($q)
+  {
+    $res = [];
+    $sql = "SELECT * FROM menu WHERE title LIKE '%$q%'";
+
+    if ($result = $this->mysqli->query($sql)) {
+      while ($row = $result->fetch_assoc()) {
+        $res[] = $row;
+      }
+      $result->free_result();
+    }
+
+    return $res;
+  }
 
   function getCategories()
   {
