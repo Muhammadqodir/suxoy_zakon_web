@@ -31,6 +31,16 @@ class DBHelper
     }
   }
 
+  function getUser($token)
+  {
+    $sql = "SELECT * FROM users WHERE token='$token'";
+    if ($result = $this->mysqli->query($sql)) {
+      return $result->fetch_assoc();
+    } else {
+      return "undefined";
+    }
+  }
+
   function register($phone)
   {
     $sql = "SELECT * FROM users WHERE phone = '$phone'";
@@ -59,6 +69,19 @@ class DBHelper
       $randomString .= $characters[random_int(0, $charactersLength - 1)];
     }
     return $randomString;
+  }
+
+  function newOrder($userId, $items, $payment, $destination, $price, $note)
+  {
+    $date = date("d.m.Y H:i:s");
+    $sql = "INSERT INTO `orders` (`id`, `user_id`, `positions`, `date`, `status`, `payment_type`, `delivery`, `totalPrice`, `note`) 
+    VALUES (NULL, $userId, '$items', '$date', 'Отправлено', '$payment', '$destination', '$price', '$note');";
+    
+    if ($this->mysqli->query($sql) === TRUE) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   function newUser($phone)
@@ -126,6 +149,21 @@ class DBHelper
 
     return $res;
   }
+  function getDestinations()
+  {
+    $res = [];
+    $sql = "SELECT * FROM destinations";
+
+    if ($result = $this->mysqli->query($sql)) {
+      while ($row = $result->fetch_assoc()) {
+        $res[] = $row;
+      }
+      $result->free_result();
+    }
+
+    return $res;
+  }
+
   function getMenuByCat($cat)
   {
     $res = [];
