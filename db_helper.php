@@ -164,6 +164,35 @@ class DBHelper
     return $res;
   }
 
+  function getOrders($id)
+  {
+    $res = [];
+    $sql = "SELECT * FROM orders WHERE user_id=$id";
+
+    if ($result = $this->mysqli->query($sql)) {
+      while ($row = $result->fetch_assoc()) {
+        $row["destination"] = $this->getDelivery($row["delivery"]);
+        $res[] = $row;
+      }
+      $result->free_result();
+    }
+
+    return $res;
+  }
+
+  function getDelivery($id){
+    $sql = "SELECT * FROM destinations WHERE id=$id";
+
+    if ($result = $this->mysqli->query($sql)) {
+      while ($row = $result->fetch_assoc()) {
+        return $row;
+      }
+      $result->free_result();
+    }
+
+    return ["id"=>-1, "destination"=>"undefined", "price"=>0];
+  }
+
   function getMenuByCat($cat)
   {
     $res = [];
