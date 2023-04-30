@@ -96,6 +96,17 @@ class DBHelper
     }
   }
 
+  function saveUser($id, $userName, $birthDay, $sex)
+  {
+    $sql = "UPDATE users SET fullName = '$userName', gender = '$sex', birth_day = '$birthDay' WHERE id = $id";
+
+    if ($this->mysqli->query($sql) === TRUE) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   function newMenuPosition($title, $description, $price, $category, $pic)
   {
     $sql = "INSERT INTO `menu` (`title`, `description`, `available`, `pic`, `price`, `category`) 
