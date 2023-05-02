@@ -137,7 +137,7 @@ class DBHelper
     $sql = "SELECT * FROM users";
 
     if ($result = $this->mysqli->query($sql)) {
-      while ($row = $result->fetch_row()) {
+      while ($row = $result->fetch_assoc()) {
         $res[] = $row;
       }
       $result->free_result();
@@ -160,6 +160,22 @@ class DBHelper
 
     return $res;
   }
+
+  function getAllUsers()
+  {
+    $res = [];
+    $sql = "SELECT * FROM users";
+
+    if ($result = $this->mysqli->query($sql)) {
+      while ($row = $result->fetch_assoc()) {
+        $res[] = $row;
+      }
+      $result->free_result();
+    }
+
+    return $res;
+  }
+
   function getDestinations()
   {
     $res = [];
