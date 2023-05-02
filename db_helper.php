@@ -40,6 +40,24 @@ class DBHelper
       return "undefined";
     }
   }
+  function getUserById($id)
+  {
+    $sql = "SELECT * FROM users WHERE id=$id";
+    if ($result = $this->mysqli->query($sql)) {
+      return $result->fetch_assoc();
+    } else {
+      return "undefined";
+    }
+  }
+  function getDestinationById($id)
+  {
+    $sql = "SELECT * FROM destinations WHERE id=$id";
+    if ($result = $this->mysqli->query($sql)) {
+      return $result->fetch_assoc();
+    } else {
+      return "undefined";
+    }
+  }
 
   function register($phone)
   {
@@ -107,6 +125,17 @@ class DBHelper
     }
   }
 
+  function updateOrderStatus($id, $status)
+  {
+    $sql = "UPDATE orders SET status = '$status' WHERE id = $id";
+
+    if ($this->mysqli->query($sql) === TRUE) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   function newMenuPosition($title, $description, $price, $category, $pic)
   {
     $sql = "INSERT INTO `menu` (`title`, `description`, `available`, `pic`, `price`, `category`) 
@@ -153,6 +182,39 @@ class DBHelper
 
     if ($result = $this->mysqli->query($sql)) {
       while ($row = $result->fetch_assoc()) {
+        $res[] = $row;
+      }
+      $result->free_result();
+    }
+
+    return $res;
+  }
+
+  function getAllOrders()
+  {
+    $res = [];
+    $sql = "SELECT * FROM orders ORDER BY id DESC";
+
+    if ($result = $this->mysqli->query($sql)) {
+      while ($row = $result->fetch_assoc()) {
+        $row["user"] = $this->getUserById($row["user_id"]);;
+        $res[] = $row;
+      }
+      $result->free_result();
+    }
+
+    return $res;
+  }
+
+  function getAllActiveOrders()
+  {
+    $res = [];
+    $sql = "SELECT * FROM orders WHERE status != 'Готово' AND status != 'Отменено' ORDER BY id DESC";
+
+    if ($result = $this->mysqli->query($sql)) {
+      while ($row = $result->fetch_assoc()) {
+        $row["user"] = $this->getUserById($row["user_id"]);;
+        $row["destination"] = $this->getDestinationById($row["delivery"]);;
         $res[] = $row;
       }
       $result->free_result();

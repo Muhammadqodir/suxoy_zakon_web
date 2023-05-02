@@ -28,50 +28,64 @@ if (!isset($_SESSION["is_login"])) {
   <div class="container dashboard_content">
     <div class="d-flex">
       <div class="mr-auto p-2">
-        <h3>Заказы</h3>
+        <h3>Активные заказы:</h3>
       </div>
 
     </div>
-
     <!-- Positions -->
-    <?php require "../db_helper.php";
-    $db = new DBHelper(); ?>
-    <div class="row menu_items">
-      <table class="table table-bordered table-hover">
-        <thead>
-          <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Ф.И.О</th>
-            <th scope="col">Номер телефона</th>
-            <th scope="col">Пол</th>
-            <th scope="col">Дата рождения</th>
-            <th scope="col">Действия</th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php foreach ($db->getUsers() as $item) : ?>
-            <tr>
-              <th scope="row"><?php echo $item["id"] ?></th>
-              <th><?php echo $item["fullName"] ?></th>
-              <td><?php echo $item["phone"] ?></td>
-              <td><?php echo $item["gender"] ?></td>
-              <td><?php echo $item["birth_day"] ?></td>
-              <td>
-                <button onclick="showConfirmDialog(<?php echo $item["id"] ?>)" class="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
-              </td>
-            </tr>
+    <div class="row menu_items" id="items">
+
+    </div>
+
+  </div>
+
+  <div class="modal fade" id="confirmationDialog" tabindex="-1" role="dialog" aria-labelledby="confirmationDialogTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Подтвердите действие</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Вы действительно хотите изменить статус заказа?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+          <button type="button" onclick="changeStatus()" class="btn btn-primary">Да изменить</button>
+        </div>
+      </div>
     </div>
   </div>
-<?php endforeach; ?>
-</tbody>
-</table>
+  <script>
+    var selectedId = -1;
+    var selectedStatus = "";
 
-</div>
-</div>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    function showConfirmDialog(id, status) {
+      selectedId = id;
+      selectedStatus = status;
+      $('#confirmationDialog').modal('toggle');
+    }
+
+    function changeStatus() {
+      fetch('https://suxoy-zakon.ru/dashboard/changeStatus.php?id='+selectedId+'&status='+selectedStatus)
+        .then(response => response.text());
+      $('#confirmationDialog').modal('toggle');
+    }
+
+    setInterval(function() {
+      fetch('https://suxoy-zakon.ru/dashboard/activeOrders.php')
+        .then(response => response.text())
+        .then(text => {
+          $("#items").html(text);
+        })
+    }, 3000);
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 </body>
 
 </html>
