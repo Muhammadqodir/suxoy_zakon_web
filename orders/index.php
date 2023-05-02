@@ -35,8 +35,19 @@ if (!isset($_SESSION["is_login"])) {
     </div>
 
     <!-- Positions -->
-    <?php require "../db_helper.php";
-    $db = new DBHelper(); ?>
+    <?php
+    require "../db_helper.php";
+    $db = new DBHelper();
+    $currentPage = 1;
+    if (isset($_GET["page"])) {
+      $currentPage = $_GET["page"];
+    }
+    $item_per_page = 7;
+    $total_records = $db->getOrdersCount()[0];
+    $total_pages = ceil($total_records / $item_per_page);
+
+    $data = $db->getAllOrders(($currentPage - 1) * $item_per_page, $item_per_page);
+    ?>
     <div class="row menu_items">
       <table class="table table-bordered table-hover">
         <thead>
@@ -49,7 +60,7 @@ if (!isset($_SESSION["is_login"])) {
           </tr>
         </thead>
         <tbody>
-          <?php foreach ($db->getAllOrders() as $item) : ?>
+          <?php foreach ($data as $item) : ?>
             <tr>
               <th scope="row"><?php echo $item["id"] ?></th>
               <th>
@@ -76,9 +87,20 @@ if (!isset($_SESSION["is_login"])) {
 </tbody>
 </table>
 
-</div>
+<nav style="text-align: center; margin: auto;">
+  <ul class="pagination">
+    <li class="page-item <?php if ($currentPage <= 1) echo "disabled" ?>">
+      <a class="page-link" href="?page=<?php echo $currentPage-1 ?>" tabindex="-1">Назад</a>
+    </li>
+    <?php for ($i = 0; $i < $total_pages; $i++) : ?>
+      <li class="page-item <?php if($i+1 == $currentPage) echo "active" ?>"><a class="page-link" href="?page=<?php echo $i+1 ?>"><?php echo $i+1 ?></a></li>
+    <?php endfor; ?>
 
-</div>
+    <li class="page-item <?php if ($currentPage >= $total_pages) echo "disabled" ?>">
+      <a class="page-link" href="?page=<?php echo $currentPage+1 ?>">Вперед</a>
+    </li>
+  </ul>
+</nav>
 
 <div class="modal fade" id="confirmationDialog" tabindex="-1" role="dialog" aria-labelledby="confirmationDialogTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">

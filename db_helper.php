@@ -190,10 +190,10 @@ class DBHelper
     return $res;
   }
 
-  function getAllOrders()
+  function getAllOrders($page, $limit)
   {
     $res = [];
-    $sql = "SELECT * FROM orders ORDER BY id DESC";
+    $sql = "SELECT * FROM orders ORDER BY id DESC LIMIT $page, $limit";
 
     if ($result = $this->mysqli->query($sql)) {
       while ($row = $result->fetch_assoc()) {
@@ -205,6 +205,18 @@ class DBHelper
     }
 
     return $res;
+  }
+
+  function getOrdersCount()
+  {
+    $res = [];
+    $sql = "SELECT COUNT(*) FROM orders";
+
+    if ($result = $this->mysqli->query($sql)) {
+      return $result->fetch_row();
+    }
+
+    return 0;
   }
 
   function getAllActiveOrders()
