@@ -30,6 +30,7 @@ if (!isset($_SESSION["is_login"])) {
       <div class="mr-auto p-2">
         <h3>Активные заказы:</h3>
       </div>
+      <div class="p-2"><a class="btn btn-success" href="<?php echo getRoute("orders") ?>" role="button"><i class="fa-solid fa-clock-rotate-left"></i> История заказов</a></div>
 
     </div>
     <!-- Positions -->
@@ -69,7 +70,7 @@ if (!isset($_SESSION["is_login"])) {
     }
 
     function changeStatus() {
-      fetch('https://suxoy-zakon.ru/dashboard/changeStatus.php?id='+selectedId+'&status='+selectedStatus)
+      fetch('https://suxoy-zakon.ru/dashboard/changeStatus.php?id=' + selectedId + '&status=' + selectedStatus)
         .then(response => response.text());
       $('#confirmationDialog').modal('toggle');
     }

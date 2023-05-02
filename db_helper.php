@@ -197,7 +197,8 @@ class DBHelper
 
     if ($result = $this->mysqli->query($sql)) {
       while ($row = $result->fetch_assoc()) {
-        $row["user"] = $this->getUserById($row["user_id"]);;
+        $row["user"] = $this->getUserById($row["user_id"]);
+        $row["destination"] = $this->getDestinationById($row["delivery"]);
         $res[] = $row;
       }
       $result->free_result();
@@ -213,8 +214,8 @@ class DBHelper
 
     if ($result = $this->mysqli->query($sql)) {
       while ($row = $result->fetch_assoc()) {
-        $row["user"] = $this->getUserById($row["user_id"]);;
-        $row["destination"] = $this->getDestinationById($row["delivery"]);;
+        $row["user"] = $this->getUserById($row["user_id"]);
+        $row["destination"] = $this->getDestinationById($row["delivery"]);
         $res[] = $row;
       }
       $result->free_result();
