@@ -178,7 +178,7 @@ class DBHelper
   function getOrders($id)
   {
     $res = [];
-    $sql = "SELECT * FROM orders WHERE user_id=$id";
+    $sql = "SELECT * FROM orders WHERE user_id=$id ORDER BY id DESC";
 
     if ($result = $this->mysqli->query($sql)) {
       while ($row = $result->fetch_assoc()) {
