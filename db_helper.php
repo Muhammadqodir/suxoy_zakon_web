@@ -102,6 +102,39 @@ class DBHelper
     }
   }
 
+  function newDestination($name, $price)
+  {
+    $sql = "INSERT INTO `destinations` (`id`, `destination`, `price`) 
+    VALUES (NULL, '$name', '$price');";
+    
+    if ($this->mysqli->query($sql) === TRUE) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  function editDestination($id, $name, $price)
+  {
+    $sql = "UPDATE `destinations` SET `destination` = '$name', `price` = '$price' WHERE id = $id;";
+    
+    if ($this->mysqli->query($sql) === TRUE) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  function setField($key, $value)
+  {
+    $sql = "UPDATE `fields` SET `value` = '$value' WHERE field = '$key';";
+    
+    if ($this->mysqli->query($sql) === TRUE) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   function newUser($phone)
   {
     $token = $this->generateToken(16);
@@ -152,6 +185,18 @@ class DBHelper
   {
 
     $sql = "DELETE FROM menu WHERE id = $id";
+
+    if ($this->mysqli->query($sql) === TRUE) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  function removeDestination($id)
+  {
+
+    $sql = "DELETE FROM destinations WHERE id = $id";
 
     if ($this->mysqli->query($sql) === TRUE) {
       return true;

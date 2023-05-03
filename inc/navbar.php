@@ -22,8 +22,8 @@ $current_route = getCurrentRoute();
       <li class="nav-item">
         <a class="nav-link" href=""><i class="fa-solid fa-chart-pie"></i> Статистика</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href=""><i class="fa-solid fa-gears"></i> Настройки</a>
+      <li class="nav-item <?php if($current_route == "settings/") echo 'active'?>">
+        <a class="nav-link" href="<?php echo getRoute("settings") ?>"><i class="fa-solid fa-gears"></i> Настройки</a>
       </li>
     </ul>
     <form class="form-inline my-2 my-lg-0">
