@@ -27,10 +27,13 @@ if (!isset($_SESSION["is_login"])) {
 
   <div class="container dashboard_content">
     <div class="d-flex">
-      <div class="mr-auto p-2">
-        <h3>Активные заказы:</h3>
+      <div class="p-1" id="indicator"></div>
+      <div class="mr-auto">
+        <h3 style="margin: 8px">Активные заказы:</h3>
       </div>
-      <div class="p-2"><a class="btn btn-success" href="<?php echo getRoute("orders") ?>" role="button"><i class="fa-solid fa-clock-rotate-left"></i> История заказов</a></div>
+      <div class="p-2">
+        <a class="btn btn-success" href="<?php echo getRoute("orders") ?>" role="button"><i class="fa-solid fa-clock-rotate-left"></i> История заказов</a>
+      </div>
 
     </div>
     <!-- Positions -->
@@ -80,6 +83,10 @@ if (!isset($_SESSION["is_login"])) {
         .then(response => response.text())
         .then(text => {
           $("#items").html(text);
+          $("#indicator").css("background-color", "green");
+          setTimeout(() => {
+            $("#indicator").css("background-color", "orange");
+          }, 3000);
         })
     }, 3000);
   </script>
