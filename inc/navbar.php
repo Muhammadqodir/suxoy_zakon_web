@@ -19,9 +19,9 @@ $current_route = getCurrentRoute();
       <li class="nav-item <?php if($current_route == "clients/") echo 'active'?>">
         <a class="nav-link" href="<?php echo getRoute("clients") ?>"><i class="fa-solid fa-users"></i> Клиенты</a>
       </li>
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link" href=""><i class="fa-solid fa-chart-pie"></i> Статистика</a>
-      </li>
+      </li> -->
       <li class="nav-item <?php if($current_route == "settings/") echo 'active'?>">
         <a class="nav-link" href="<?php echo getRoute("settings") ?>"><i class="fa-solid fa-gears"></i> Настройки</a>
       </li>

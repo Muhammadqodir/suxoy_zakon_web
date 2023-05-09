@@ -337,7 +337,7 @@ class DBHelper
       $result->free_result();
     }
 
-    return ["id"=>-1, "destination"=>"undefined", "price"=>0];
+    return ["id"=>"-1", "destination"=>"undefined", "price"=>"0"];
   }
 
   function getMenuByCat($cat)
