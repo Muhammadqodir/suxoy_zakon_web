@@ -72,7 +72,8 @@ $data = $db->getAllActiveOrders();
     <div class="card menu_item" style="width: 100%;">
       <div class="card-body">
         <h5 class="card-title menu_title"><?php echo "#" . $item["id"] ?> <span class="<?php echo getStatusColor($item) ?>"><?php echo $item["status"] ?></span></h5>
-        <?php $positions = json_decode($item["positions"], true)  ?>
+        <?php $preprocessed = str_replace("\r\n", "", $item["positions"]) ?>
+        <?php $positions = json_decode($preprocessed, true)  ?>
         <p class="card-text">
           <b>Позиции:</b> <br>
           <?php foreach ($positions as $position) : ?>
