@@ -64,7 +64,7 @@ $data = $db->getAllActiveOrders();
 ?>
 
 <?php if (count($data) == 0) : ?>
-<div style="text-align: center; margin: auto; font-size: 24px;">Нет актуальных заказов!</div>
+<div style="text-align: center; margin: auto; font-size: 24px;">Нет активных заказов!</div>
 <?php endif; ?>
 
 <?php foreach ($data as $item) : ?>
@@ -86,8 +86,12 @@ $data = $db->getAllActiveOrders();
           <?php endforeach; ?>
         </p>
         <p class="">
+          <?php if($item["user"] != null): ?>
           <i class="fa-solid fa-user"></i> <?php echo $item["user"]["fullName"] ?><br>
           <i class="fa-solid fa-phone"></i><b> <?php echo $item["user"]["phone"] ?></b>
+          <?php else: ?>
+          <div style="color: red;"><i class="fa-solid fa-user"></i> Удалённый аккаунт</div>
+          <?php endif; ?>
         </p>
         <p>
           <i class="fa-solid fa-location-dot"></i><b> <?php echo $item["destination"]["destination"] ?></b>

@@ -64,8 +64,12 @@ if (!isset($_SESSION["is_login"])) {
             <tr>
               <th scope="row"><?php echo $item["id"] ?></th>
               <th>
-                <i class="fa-solid fa-user"></i> <?php echo $item["user"]["fullName"] ?><br>
-                <i class="fa-solid fa-phone"></i><b> <?php echo $item["user"]["phone"] ?></b>
+                <?php if ($item["user"] != null) : ?>
+                  <i class="fa-solid fa-user"></i> <?php echo $item["user"]["fullName"] ?><br>
+                  <i class="fa-solid fa-phone"></i><b> <?php echo $item["user"]["phone"] ?></b>
+                <?php else : ?>
+                  <div style="color: red;"><i class="fa-solid fa-user"></i> Удалённый аккаунт</div>
+                <?php endif; ?>
               </th>
               <td>
 
@@ -90,14 +94,14 @@ if (!isset($_SESSION["is_login"])) {
 <nav style="text-align: center; margin: auto;">
   <ul class="pagination">
     <li class="page-item <?php if ($currentPage <= 1) echo "disabled" ?>">
-      <a class="page-link" href="?page=<?php echo $currentPage-1 ?>" tabindex="-1">Назад</a>
+      <a class="page-link" href="?page=<?php echo $currentPage - 1 ?>" tabindex="-1">Назад</a>
     </li>
     <?php for ($i = 0; $i < $total_pages; $i++) : ?>
-      <li class="page-item <?php if($i+1 == $currentPage) echo "active" ?>"><a class="page-link" href="?page=<?php echo $i+1 ?>"><?php echo $i+1 ?></a></li>
+      <li class="page-item <?php if ($i + 1 == $currentPage) echo "active" ?>"><a class="page-link" href="?page=<?php echo $i + 1 ?>"><?php echo $i + 1 ?></a></li>
     <?php endfor; ?>
 
     <li class="page-item <?php if ($currentPage >= $total_pages) echo "disabled" ?>">
-      <a class="page-link" href="?page=<?php echo $currentPage+1 ?>">Вперед</a>
+      <a class="page-link" href="?page=<?php echo $currentPage + 1 ?>">Вперед</a>
     </li>
   </ul>
 </nav>

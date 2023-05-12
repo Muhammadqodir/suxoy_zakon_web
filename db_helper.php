@@ -40,13 +40,24 @@ class DBHelper
       return "undefined";
     }
   }
+
+  function deleteUser($token)
+  {
+    $sql = "DELETE FROM users WHERE token='$token'";
+    if ($result = $this->mysqli->query($sql)) {
+      return true;
+    } else {
+      return "undefined";
+    }
+  }
+
   function getUserById($id)
   {
     $sql = "SELECT * FROM users WHERE id=$id";
     if ($result = $this->mysqli->query($sql)) {
       return $result->fetch_assoc();
     } else {
-      return "undefined";
+      return array("id"=>-1, "fullName"=>"Удаленный пользователь", "phone"=> "Удаленный пользователь");
     }
   }
   function getDestinationById($id)
