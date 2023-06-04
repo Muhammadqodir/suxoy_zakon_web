@@ -100,11 +100,11 @@ class DBHelper
     return $randomString;
   }
 
-  function newOrder($userId, $items, $payment, $destination, $price, $note)
+  function newOrder($userId, $items, $payment, $destination, $price, $note, $sdacha, $address)
   {
     $date = date("d.m.Y H:i:s");
-    $sql = "INSERT INTO `orders` (`id`, `user_id`, `positions`, `date`, `status`, `payment_type`, `delivery`, `totalPrice`, `note`) 
-    VALUES (NULL, $userId, '$items', '$date', 'Отправлено', '$payment', '$destination', '$price', '$note');";
+    $sql = "INSERT INTO `orders` (`id`, `user_id`, `positions`, `date`, `status`, `payment_type`, `delivery`, `totalPrice`, `note`, `stacha`, `address`) 
+    VALUES (NULL, $userId, '$items', '$date', 'Отправлено', '$payment', '$destination', '$price', '$note', '$sdacha', '$address');";
     
     if ($this->mysqli->query($sql) === TRUE) {
       return true;
@@ -184,6 +184,22 @@ class DBHelper
   {
     $sql = "INSERT INTO `menu` (`title`, `description`, `available`, `pic`, `price`, `category`) 
     VALUES ('$title', '$description', 1, '$pic', $price, '$category')";
+
+    if ($this->mysqli->query($sql) === TRUE) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  function editMenuPosition($id, $title, $description, $price, $category, $pic)
+  {
+    $sql = "UPDATE `menu` SET `title`='$title', `description`='$description', `pic`='$pic', `price`=$price, `category`='$category'
+    WHERE id = $id";
+    if($pic == ""){
+      $sql = "UPDATE `menu` SET `title`='$title', `description`='$description', `price`=$price, `category`='$category'
+      WHERE id = $id";
+    }
 
     if ($this->mysqli->query($sql) === TRUE) {
       return true;
@@ -378,6 +394,17 @@ class DBHelper
     }
 
     return $res;
+  }
+
+  function getPositionById($id)
+  {
+    $sql = "SELECT * FROM menu WHERE id = $id";
+
+    if ($result = $this->mysqli->query($sql)) {
+      return $result->fetch_assoc();
+    }
+
+    return null;
   }
 
   function getCategories()

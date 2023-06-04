@@ -12,6 +12,8 @@ if (
   isset($_POST["totalPrice"]) &&
   isset($_POST["paymentMethod"]) &&
   isset($_POST["note"]) &&
+  // isset($_POST["address"]) &&
+  // isset($_POST["sdacha"]) &&
   isset($_POST["token"])
 ) {
 
@@ -21,7 +23,8 @@ if (
   if($user != null){
     $res["isSuccess"] = true;
     $res["message"] = "ok";
-    $res["data"] = $db->newOrder($user["id"], $_POST["items"], $_POST["paymentMethod"], $_POST["destination"], $_POST["totalPrice"], $_POST["note"],);
+    // $res["data"] = $db->newOrder($user["id"], $_POST["items"], $_POST["paymentMethod"], $_POST["destination"], $_POST["totalPrice"], $_POST["note"], $_POST["sdacha"], $_POST["address"]);
+    $res["data"] = $db->newOrder($user["id"], $_POST["items"], $_POST["paymentMethod"], $_POST["destination"], $_POST["totalPrice"], $_POST["note"], "", "");
   }
 
 }

@@ -44,7 +44,7 @@ if (!isset($_SESSION["is_login"])) {
               <h5 class="card-title menu_title"><?php echo $item["title"] ?></h5>
               <span class="badge badge-success"><?php echo $item["category"] ?></span><br>
               <p class="card-text menu_desc"><b>Состав:</b> <br><?php echo $item["description"] ?></p>
-              <a href="#" class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i></a>
+              <a href="edit?id=<?php echo $item["id"] ?>" class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i></a>
               <a href="#" class="btn btn-warning"><i class="fa-solid fa-toggle-<?php if ($item["available"]) {
                                                                                   echo "on";
                                                                                 } else {
