@@ -1,5 +1,5 @@
 <?php
-require "../db_helper.php";
+require "db_helper.php";
 
 $res = [];
 

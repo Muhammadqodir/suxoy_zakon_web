@@ -2,3 +2,4 @@
 .DS_Store
 .vscode/sftp.json
 config.php
+api/config_sms.php

@@ -1,7 +1,7 @@
 <?php
-require "../db_helper.php";
+require "db_helper.php";
 require "validators.php";
-require "config.php";
+require "config_sms.php";
 
 // $token = "undefined";
 // try{
